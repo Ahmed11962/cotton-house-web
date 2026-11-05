@@ -1,0 +1,51 @@
+{
+  "name": "cotton-house-web",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --hostname 0.0.0.0",
+    "build": "prisma generate && next build --webpack",
+    "start": "next start --hostname 0.0.0.0",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "test:e2e": "playwright test",
+    "db:generate": "prisma generate",
+    "db:migrate": "tsx scripts/migrate.ts",
+    "db:seed": "tsx prisma/seed.ts",
+    "admin:create": "tsx scripts/create-admin.ts",
+    "db:local": "tsx scripts/local-db.ts",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^6.19.3",
+    "@prisma/client": "^6.19.0",
+    "bcryptjs": "^3.0.0",
+    "lucide-react": "^0.468.0",
+    "next": "^16.0.0",
+    "pg": "^8.23.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "sharp": "^0.34.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.0",
+    "@tailwindcss/postcss": "^4.1.0",
+    "@types/node": "^24.0.0",
+    "@types/pg": "^8.23.1",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "embedded-postgres": "^18.0.0-beta.15",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^16.0.0",
+    "prettier": "^3.9.10",
+    "prisma": "^6.19.0",
+    "tailwindcss": "^4.1.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}

@@ -1,0 +1,92 @@
+generator client {
+  provider = "prisma-client-js"
+  engineType = "client"
+}
+datasource db {
+  provider = "postgresql"
+  url = env("DATABASE_URL")
+}
+model Category {
+  id String @id @default(cuid())
+  slug String @unique
+  nameEn String
+  nameAr String
+  image String @default("")
+  parentId String?
+  parent Category? @relation("Tree", fields: [parentId], references: [id], onDelete: Restrict)
+  children Category[] @relation("Tree")
+  products Product[]
+}
+model Product {
+  id String @id @default(cuid())
+  slug String @unique
+  sku String @unique
+  nameEn String
+  nameAr String
+  descriptionEn String
+  descriptionAr String
+  price Decimal? @db.Decimal(10,2)
+  priceMode String @default("INQUIRE")
+  sizes String[]
+  colors String[]
+  images String[]
+  availability String @default("INQUIRE")
+  featured Boolean @default(false)
+  newArrival Boolean @default(false)
+  visible Boolean @default(true)
+  demo Boolean @default(false)
+  categoryId String
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model Promotion {
+  id String @id @default(cuid())
+  titleEn String
+  titleAr String
+  descriptionEn String
+  descriptionAr String
+  image String @default("")
+  active Boolean @default(true)
+  demo Boolean @default(false)
+}
+model StoreSettings {
+  id String @id @default("store")
+  heroTitleEn String
+  heroTitleAr String
+  heroTextEn String
+  heroTextAr String
+  heroImage String
+  aboutEn String
+  aboutAr String
+  addressEn String @default("")
+  addressAr String @default("")
+  hoursEn String @default("")
+  hoursAr String @default("")
+  whatsapp String @default("966552271417")
+  phone String @default("0552271417")
+  directionsUrl String @default("https://maps.app.goo.gl/MD14LFgMYh3eGas79")
+  mapEmbedUrl String @default("")
+  instagram String @default("")
+  snapchat String @default("")
+  logoUrl String @default("/brand/logo.svg")
+}
+model Admin {
+  id String @id @default(cuid())
+  email String @unique
+  passwordHash String
+  sessions Session[]
+}
+model Session {
+  id String @id
+  adminId String
+  admin Admin @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  @@index([expiresAt])
+}
+model LoginAttempt {
+  id String @id @default(cuid())
+  key String
+  createdAt DateTime @default(now())
+  @@index([key, createdAt])
+}
